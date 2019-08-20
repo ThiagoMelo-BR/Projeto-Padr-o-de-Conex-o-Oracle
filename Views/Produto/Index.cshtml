@@ -1,0 +1,63 @@
+﻿<script type="text/javascript" src="~/Scripts/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+    function deleteRow(i) {
+        document.getElementById('tabelaProdutos').deleteRow(i)
+    }
+
+    function confirmacao(produtoId, i) {
+        var resposta = confirm("Deseja remover o produto?");
+        var url = "@Url.Action("Excluir", "Produto")";
+
+        if (resposta == true) {
+            $.post(url, { id: produtoId });
+            deleteRow(i);            
+        }
+    }
+</script>
+
+@using PRJ_MVC_CORE_ORACLE.Models;
+
+@{
+    ViewData["Title"] = "Produtos";
+}
+
+@model IList<Produto>
+
+<h1>Produtos</h1>
+
+<div class="form-group">
+    <a class="btn btn-success" asp-action="Cadastrar">
+        Cadastrar
+    </a>
+</div>
+
+<table class="table" id="tabelaProdutos">
+    <thead>
+        <tr>
+            <th scope="col">Código</th>
+            <th scope="col">Descrição</th>
+            <th scope="col">Departamento</th>
+            <th scope="col">Seção</th>
+            <th scope="col">Fornecedor</th>
+            <th scope="col">Ações</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+        <tr id="linhaProduto@(item.Id)">
+            <td>@item.Id</td>
+            <td>@item.Descricao</td>
+            <td>@item.Departamento.Descricao</td>
+            <td>@item.Secao.Descricao</td>
+            <td>@item.Fornecedor.Descricao</td>
+            <td>@Html.ActionLink("editar", "Editar", new { Id = item.Id })  </td>
+            <!--<td>@Html.ActionLink("excluir", "Excluir", new { Id = item.Id })</td>-->
+            <td><a href="#" onclick="confirmacao(@item.Id,this.parentNode.parentNode.rowIndex)">excluir</a></td>
+        </tr>
+        }
+    </tbody>
+</table>

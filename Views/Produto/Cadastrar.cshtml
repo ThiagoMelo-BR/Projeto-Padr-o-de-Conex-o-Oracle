@@ -1,0 +1,75 @@
+﻿@using PRJ_MVC_CORE_ORACLE.Models
+
+@{
+    ViewData["Title"] = "Cadastro";
+}
+
+@model Produto
+
+<h3>Cadastro de Produto</h3>
+
+<form asp-action="AtualizarProduto" method="post">
+    <input type="hidden" id="id" name="produto.id" value="@Model.Id" class="hidden" />
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label" for="descricao">Descrição</label>
+                    <input type="text" class="form-control" name="produto.descricao" id="descricao" placeholder="Descrição"
+                           asp-for="@Model.Descricao">
+                    <span asp-validation-for="@Model.Descricao" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="embalagem">Embalagem</label>
+                    <input type="text" class="form-control" name="produto.embalagem" id="embalagem" placeholder="Embalagem"
+                           asp-for="@Model.Embalagem">
+                    <span asp-validation-for="@Model.Embalagem" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="departamento">Departamentos</label>
+                    <select id="departamento" name="produto.DepartamentoId" class="form-control">
+                        @foreach (var d in ViewBag.departamentos)
+                        {
+                            <option value="@d.Id" selected="@d.Id.Equals(Model.DepartamentoId)">@d.Descricao</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="secao">Seção</label>
+                    <select id="secao" name="produto.SecaoId" class="form-control">
+                        @foreach (var s in ViewBag.secoes)
+                        {
+                            <option value="@s.Id" selected="@s.Id.Equals(Model.SecaoId)">@s.Descricao</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="secao">Fornecedor</label>
+                    <select id="secao" name="produto.FornecedorId" class="form-control">
+                        @foreach (var f in ViewBag.fornecedores)
+                        {
+                            <option value="@f.Id" selected="@f.Id.Equals(Model.FornecedorId)">@f.Descricao</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Salvar</button>
+                    <button type="submit" id="btn-cancelar" class="btn btn-danger">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    document.querySelector("#btn-cancelar").addEventListener("click", function (event) {
+        event.preventDefault();
+        var url = "@Url.Action("Index", "Produto")";
+        window.location.href = url;
+
+    });
+
+</script>
+
+
+
